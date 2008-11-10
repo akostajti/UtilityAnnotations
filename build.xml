@@ -14,6 +14,7 @@
         <javac destdir="${build.dir}/classes" srcdir="${src.dir}">
             <classpath>
                 <pathelement path="${lib.dir}/javassist.jar"/>
+                <pathelement path="${lib.dir}/log4j-1.2.15.jar"/>
             </classpath>
         </javac>
     </target>
