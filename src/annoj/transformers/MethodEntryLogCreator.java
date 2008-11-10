@@ -19,7 +19,7 @@ import javassist.CtMethod;
  * @author Tajti Ákos
  */
 public class MethodEntryLogCreator extends ClassTransformer {
-
+    //TODO: implement pattern handling in logging parameters
     @Override
     protected void doModification(String className) throws Exception {
         ClassPool pool = ClassPool.getDefault();

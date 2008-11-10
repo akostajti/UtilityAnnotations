@@ -11,6 +11,7 @@ import annoj.annotation.Loggable;
  *
  * @author Tajti Ákos
  */
+@Loggable
 public class TestClass {
 
     private int x;
