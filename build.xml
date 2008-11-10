@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<project name="UtilityAnnotations" default="default" basedir=".">
+    <description>Builds, tests, and runs the project annoj.</description>
+    <property name="lib.dir" value="${basedir}/lib" />
+    <property name="src.dir" value="${basedir}/src" />
+    <property name="build.dir" value="${basedir}/build" />
+    <property name="dist.dir" value="${basedir}/dist" />
+    <property name="doc.dir" value="${basedir}/doc" />
+    <target name="compile">
+        <mkdir dir="${build.dir}/classes" />
+        <javac destdir="${build.dir}/classes" srcdir="${src.dir}">
+            <classpath>
+                <pathelement path="${lib.dir}/javassist.jar"/>
+            </classpath>
+        </javac>
+    </target>
+    <target name="jar" depends="compile">
+        <mkdir dir="${dist.dir}" />
+        <jar basedir="${build.dir}/classes" destfile="${dist.dir}/annoj.jar" />
+    </target>
+    <target name="clean" >
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
+        <delete dir="${doc.dir}" />
+    </target>
+    <target name="javadoc">
+        <mkdir dir="${doc.dir}" />
+        <javadoc sourcepath="${src.dir}" destdir="${doc.dir}">
+               <classpath>
+                   <pathelement path="${lib.dir}/javassist.jar"/>
+               </classpath>
+        </javadoc>
+    </target>
+    <target name="default" depends="jar" />
+</project>
