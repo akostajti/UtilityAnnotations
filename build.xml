@@ -9,14 +9,14 @@
     <property name="build.dir" value="${basedir}/build" />
     <property name="dist.dir" value="${basedir}/dist" />
     <property name="doc.dir" value="${basedir}/doc" />
+    
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+    
     <target name="compile">
         <mkdir dir="${build.dir}/classes" />
-        <javac destdir="${build.dir}/classes" srcdir="${src.dir}">
-            <classpath>
-                <pathelement path="${lib.dir}/javassist.jar"/>
-                <pathelement path="${lib.dir}/log4j-1.2.15.jar"/>
-            </classpath>
-        </javac>
+        <javac destdir="${build.dir}/classes" srcdir="${src.dir}" classpathref="classpath"/>
     </target>
     <target name="jar" depends="compile">
         <mkdir dir="${dist.dir}" />
@@ -29,11 +29,7 @@
     </target>
     <target name="javadoc">
         <mkdir dir="${doc.dir}" />
-        <javadoc sourcepath="${src.dir}" destdir="${doc.dir}">
-               <classpath>
-                   <pathelement path="${lib.dir}/javassist.jar"/>
-               </classpath>
-        </javadoc>
+        <javadoc sourcepath="${src.dir}" destdir="${doc.dir}" classpathref="classpath" />
     </target>
     <target name="default" depends="jar" />
 </project>
