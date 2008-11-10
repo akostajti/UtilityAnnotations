@@ -32,18 +32,20 @@ import javassist.CtNewMethod;
  */
 public abstract class ClassTransformer {
 
-    protected ClassTransformer nextClassTransformer;
-    protected ClassTransformer previousClassTransformer;
-
+    //<editor-fold desc="instance fields">
+    private ClassTransformer nextClassTransformer;
+    private ClassTransformer previousClassTransformer;
+    //</editor-fold>
+    //<editor-fold desc="abstract methods">
+    /**
+     * Do modifications on class <code>className</code> The class must be on the classpath.
+     */
+    protected abstract void doModification(String className) throws Exception;
+    //</editor-fold>
     protected void createMethod(CtClass ct, String methodNameNadSignature, String methodBody) throws CannotCompileException {
         CtMethod newMethod = CtNewMethod.make("public String toString()" + methodBody, ct);
         ct.addMethod(newMethod);
     }
-
-    /**
-     * Creates a method is class called <code>className</code>. 
-     */
-    protected abstract void doModification(String className) throws Exception;
 
     /**
      * Checks if an array of objects contains an instance of <code>annotationClass</code>ú
@@ -54,17 +56,24 @@ public abstract class ClassTransformer {
      * @return
      */
     protected boolean containsAnnotation(Object[] anns, Class annotationClass) {
-        for (Object o : anns) {
-            if (annotationClass.isInstance(o)) {
-                return true;
-            }
+        if (getAnnotation(anns, annotationClass) != null) {
+            return true;
         }
-
         return false;
     }
 
+    protected Object getAnnotation(Object anns[], Class annotationClass) {
+        for (Object o : anns) {
+            if (annotationClass.isInstance(o)) {
+                return o;
+            }
+        }
+
+        return null;
+    }
+
     /**
-     * The method accepts a file name as a parameter. The file is a imple text file
+     * The method accepts a file name as a parameter. The file is a simple text file
      * in wich there are package and class names listed one per every line. the packages
      * and classes must be available for the context classloader.
      * <br/>
@@ -77,11 +86,13 @@ public abstract class ClassTransformer {
      * @throws java.lang.Exception
      */
     protected void initBeforeApplicationStart(String fileName) throws FileNotFoundException, Exception {
+        //TODO: implement xml configuration
         if (fileName == null) {
             return;
         }
         List<String> classList = new ArrayList<String>();
-        for (Scanner scanner = new Scanner(new File(fileName)); scanner.hasNextLine();) {
+        Scanner scanner = new Scanner(new File(fileName));
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             List<String> cl = DirectoryTraverser.getClassNames(line);
             if (cl.size() != 0) {
@@ -95,7 +106,7 @@ public abstract class ClassTransformer {
     }
 
     /**
-     * Commits class definition changes anfd loads the class. If the <code>nextClassTransformer</code>
+     * Commits class definition changes and loads the class. If the <code>nextClassTransformer</code>
      * is available, then it is called before commit. If the <code>previousClassTransformer</code>
      * is available, then class loading is left to it.
      * 
@@ -169,7 +180,7 @@ public abstract class ClassTransformer {
      */
     public static void initClassTransformers(List<ClassTransformer> trans, String configFileName) throws Exception {
         if (trans != null && trans.size() >= 2) {
-            for (int i = 0, size = trans.size(); i < size - 1; i++) {
+            for (int i = 0,  size = trans.size(); i < size - 1; i++) {
                 ClassTransformer t1 = trans.get(i);
                 ClassTransformer t2 = trans.get(i + 1);
                 t1.setNextClassTransformer(t2);
@@ -200,5 +211,13 @@ public abstract class ClassTransformer {
         }
 
         return false;
+    }
+
+    protected boolean hasNextClassTransformer() {
+        return nextClassTransformer == null;
+    }
+
+    protected boolean hasPreviousClassTransformer() {
+        return previousClassTransformer == null;
     }
 }
