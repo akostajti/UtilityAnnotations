@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: lib/javassist.jar lib/log4j-1.2.15.jar
+Main-Class: annoj.loader.MainMethodBootstrap
