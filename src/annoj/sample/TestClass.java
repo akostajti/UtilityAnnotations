@@ -18,6 +18,10 @@ public class TestClass {
     public String name;
     public double d;
 
+    public TestClass(){
+        
+    }
+    
     public TestClass(int x, String name, double d) {
         this.x = x;
         this.name = name;

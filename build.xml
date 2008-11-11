@@ -19,12 +19,10 @@
         <javac destdir="${build.dir}/classes" srcdir="${src.dir}" classpathref="classpath"/>
     </target>
     <target name="jar" depends="compile">
-        <mkdir dir="${dist.dir}" />
-        <jar basedir="${build.dir}/classes" destfile="${dist.dir}/annoj.jar" />
+        <jar basedir="${build.dir}/classes" destfile="${basedir}/annoj.jar" manifest="${basedir}/manifest.mf"/>
     </target>
     <target name="clean" >
         <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
         <delete dir="${doc.dir}" />
     </target>
     <target name="javadoc">
