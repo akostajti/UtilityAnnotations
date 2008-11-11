@@ -8,6 +8,7 @@ import annoj.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import javassist.CannotCompileException;
@@ -109,11 +110,14 @@ public abstract class ClassTransformer {
      * Commits class definition changes and loads the class. If the <code>nextClassTransformer</code>
      * is available, then it is called before commit. If the <code>previousClassTransformer</code>
      * is available, then class loading is left to it.
+     * <br/>
+     * Every implementation of <code>doModification</code> must invoke this method.
      * 
      * @param ct
      * @throws java.lang.Exception
      */
     protected void commitClassChanges(CtClass ct) throws Exception {
+        System.out.println("commit");
         if (nextClassTransformer != null) {
             nextClassTransformer.doModification(ct.getName());
         }
@@ -179,8 +183,21 @@ public abstract class ClassTransformer {
      * @throws java.lang.Exception
      */
     public static void initClassTransformers(List<ClassTransformer> trans, String configFileName) throws Exception {
+        List<ClassTransformer> inited = initClassTransformers(trans);
+
+        inited.get(0).initBeforeApplicationStart(configFileName);
+    }
+
+    public static void initClassTransformersForClass(List<ClassTransformer> trans, String className) throws Exception{
+        List<ClassTransformer> inited = initClassTransformers(trans);
+        List<String> classes = Collections.singletonList(className);
+        
+        inited.get(0).doModificationForClasses(classes);
+    }
+    
+    private static List<ClassTransformer> initClassTransformers(List<ClassTransformer> trans) {
         if (trans != null && trans.size() >= 2) {
-            for (int i = 0,  size = trans.size(); i < size - 1; i++) {
+            for (int i = 0, size = trans.size(); i < size - 1; i++) {
                 ClassTransformer t1 = trans.get(i);
                 ClassTransformer t2 = trans.get(i + 1);
                 t1.setNextClassTransformer(t2);
@@ -188,7 +205,7 @@ public abstract class ClassTransformer {
             }
         }
 
-        trans.get(0).initBeforeApplicationStart(configFileName);
+        return trans;
     }
 
     /**

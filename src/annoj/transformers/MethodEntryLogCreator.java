@@ -22,6 +22,7 @@ public class MethodEntryLogCreator extends ClassTransformer {
     //TODO: implement pattern handling in logging parameters
     @Override
     protected void doModification(String className) throws Exception {
+        System.out.println("logger");
         ClassPool pool = ClassPool.getDefault();
         CtClass ct = pool.get(className);
         CtMethod[] methods = ct.getDeclaredMethods();

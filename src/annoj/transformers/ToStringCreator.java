@@ -45,7 +45,7 @@ public class ToStringCreator extends ClassTransformer {
      * @param className Name of the class to modify.
      * @throws java.lang.Exception
      */
-    protected void doModification(String className) throws Exception {
+    public void doModification(String className) throws Exception {
         ClassPool pool = ClassPool.getDefault();
         CtClass ct = pool.get(className);
 
