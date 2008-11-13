@@ -17,10 +17,7 @@ import java.util.List;
  * of the loaded class hierarchy will be loaded by this loader.<br/>
  * A typical usage:<br/>
  * <pre>
- *      String[] a = new String[args.length + 1];
-        a[0] = "classloadertest.Main";
-        System.arraycopy(args, 0, a, 1, args.length);
-        MainMethodBootstrap.callMainMethod(a);
+        MainMethodBootstrap.callMainMethod("classloadertest.Main", args);
  * </pre>
  * In the example, instead of calling callMainMethod directly in class <code>Main</code> we
  * call it using <code>MainMethodBootstrap</code> that gives us the opportunity to load
@@ -29,6 +26,7 @@ import java.util.List;
  * @author Tajti Ákos
  */
 public class MainMethodBootstrap {
+
     /**
      * Call main method in class <code>className</code> with arguments given in
      * <code>args</code>. The class is loaded by <code>TransformingClassLoader</code>.
@@ -42,11 +40,15 @@ public class MainMethodBootstrap {
      * @throws java.lang.reflect.InvocationTargetException
      */
     public static void callMainMethod(String className, String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        List<ClassTransformer> transformers = new ArrayList<ClassTransformer>(2);
-        transformers.add(new ToStringCreator());
-        transformers.add(new MethodEntryLogCreator());
-        TransformingClassLoader loader = new TransformingClassLoader(transformers);
+        List<ClassTransformer> transformers = new ArrayList<ClassTransformer>(2) {
+            {
+                add(new ToStringCreator());
+                add(new MethodEntryLogCreator());
+            }
+        };
         
+        TransformingClassLoader loader = new TransformingClassLoader(transformers);
+
         Class cl = loader.loadClass(className);
         Method m = cl.getMethod("main", String[].class);
         m.invoke(null, new Object[]{args});

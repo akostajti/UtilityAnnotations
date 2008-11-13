@@ -14,6 +14,7 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.NotFoundException;
+import org.apache.log4j.Logger;
 
 /**
  * Subclass of <code>ClassTransformer</code> for creating <code>toString</code>
@@ -38,6 +39,8 @@ import javassist.NotFoundException;
  */
 public class ToStringCreator extends ClassTransformer {
 
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
     /**
      * Adds method <code>toString</code> to class named <code>className</code>. The 
      * properties of the added method are controled by the annotations in the target class.
@@ -46,15 +49,20 @@ public class ToStringCreator extends ClassTransformer {
      * @throws java.lang.Exception
      */
     public void doModification(String className) throws Exception {
+        logger.debug(className);
         ClassPool pool = ClassPool.getDefault();
         CtClass ct = pool.get(className);
 
         try {
             ct.getDeclaredMethod("toString", new CtClass[]{});
         } catch (NotFoundException nfex) {
-            if (createMethod(ct)) {
-                commitClassChanges(ct);
-            }
+            logger.debug("toStringNotFound");
+//            if (createMethod(ct)) {
+//                logger.debug("create method true");
+//
+//            }
+            createMethod(ct);
+            commitClassChanges(ct);
         }
     }
 

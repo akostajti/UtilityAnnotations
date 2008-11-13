@@ -15,6 +15,7 @@ import javassist.CannotCompileException;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.CtNewMethod;
+import org.apache.log4j.Logger;
 
 /**
  * This class is used for modifiyng class bytecode. It can add methods to classes.
@@ -36,6 +37,7 @@ public abstract class ClassTransformer {
     //<editor-fold desc="instance fields">
     private ClassTransformer nextClassTransformer;
     private ClassTransformer previousClassTransformer;
+    private static Logger logger = Logger.getLogger(ClassTransformer.class.getName());
     //</editor-fold>
     //<editor-fold desc="abstract methods">
     /**
@@ -62,7 +64,7 @@ public abstract class ClassTransformer {
         }
         return false;
     }
-
+    
     protected Object getAnnotation(Object anns[], Class annotationClass) {
         for (Object o : anns) {
             if (annotationClass.isInstance(o)) {
@@ -117,8 +119,9 @@ public abstract class ClassTransformer {
      * @throws java.lang.Exception
      */
     protected void commitClassChanges(CtClass ct) throws Exception {
-        System.out.println("commit");
+        logger.debug("commit");
         if (nextClassTransformer != null) {
+            logger.debug("invoking next transformer");
             nextClassTransformer.doModification(ct.getName());
         }
 
@@ -189,17 +192,30 @@ public abstract class ClassTransformer {
     }
 
     public static void initClassTransformersForClass(List<ClassTransformer> trans, String className) throws Exception{
+        logger.debug(className);
         List<ClassTransformer> inited = initClassTransformers(trans);
         List<String> classes = Collections.singletonList(className);
         
         inited.get(0).doModificationForClasses(classes);
     }
     
+    /**
+     * Gets a list of <code>ClassTransformer</code>s and if the list is longer then two
+     * then every element's <code>nextClassTransformer</code> reference is set to the element
+     * next tp is. The <code>previousClassTransformer</code> attribute is set to the previous 
+     * element in the list.
+     * <br/>
+     * The parameter list is modified and it's returned.
+     * 
+     * @param trans
+     * @return
+     */
     private static List<ClassTransformer> initClassTransformers(List<ClassTransformer> trans) {
         if (trans != null && trans.size() >= 2) {
             for (int i = 0, size = trans.size(); i < size - 1; i++) {
                 ClassTransformer t1 = trans.get(i);
                 ClassTransformer t2 = trans.get(i + 1);
+                logger.debug(t1.getClass() + "," + t2.getClass());
                 t1.setNextClassTransformer(t2);
                 t2.setPreviousClassTransformer(t1);
             }
@@ -210,7 +226,7 @@ public abstract class ClassTransformer {
 
     /**
      * Checks is a package is annotate with an annotation type of <code>annotationType</code>.
-     * Packages can be annotated by annotating class <code>PackageInfo</code> in the package.
+     * Packages can be annotated by annotating class <code>Packagedebug</code> in the package.
      * If this class doesnt exist or exists but isnt annotated the package is not annotated.
      * 
      * @param packageName
@@ -219,7 +235,7 @@ public abstract class ClassTransformer {
      */
     protected boolean isPackageAnnotatedWith(String packageName, Class annotationType) {
         try {
-            Class cl = Class.forName(packageName + ".PackageInfo");
+            Class cl = Class.forName(packageName + ".Packagedebug");
             if (cl.getAnnotation(annotationType) != null) {
                 return true;
             }

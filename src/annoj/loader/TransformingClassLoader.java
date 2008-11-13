@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.loader;
 
 import annoj.transformers.ClassTransformer;
@@ -9,13 +5,17 @@ import java.util.List;
 import java.util.WeakHashMap;
 import javassist.ClassPool;
 import javassist.CtClass;
+import org.apache.log4j.Logger;
 
 /**
- * Custom classloader. It modifies bítecode in runtime then loads the modified class
+ * Custom classloader. It modifies bytecode in runtime then loads the modified class
  * definition. It's important that the classloader should only be used in a so called
  * bootstrap class which loads this classloader and then loads the classes with
- * it.
- *
+ * it.<br/>
+ * In the bootstrap class one can instantiate this class loader and pass a list
+ * of <code>ClassTransformer</code> instances to it. When a class is loaded by the
+ * loader the passed transformers will try to modify its bytecode before loading it.
+ * 
  * @author Tajti Ákos
  */
 public class TransformingClassLoader extends ClassLoader {
@@ -26,7 +26,11 @@ public class TransformingClassLoader extends ClassLoader {
     private List<ClassTransformer> transformers;
     
     /**
-     * Sets parent classloader ans checks permissions.
+     * Sets the parent class loader and checks the permissions. If there's no 
+     * permission to create a class loader then the constructo will fail.
+     * 
+     * @param transformers <code>ClassTransformer</code> instances to be used for
+     * modifying loaded classes.
      */
     public TransformingClassLoader(List<ClassTransformer> transformers) {
         super(TransformingClassLoader.class.getClassLoader());
@@ -58,6 +62,7 @@ public class TransformingClassLoader extends ClassLoader {
                 resolveClass(c);
             }
         }
+ 
         return c;
     }
 
@@ -75,11 +80,8 @@ public class TransformingClassLoader extends ClassLoader {
         try {
             ClassPool.doPruning = false;
 
-//            ToStringCreator creator = new ToStringCreator();
-//            creator.doModification(className);
-            
             ClassTransformer.initClassTransformersForClass(transformers, className);
-            
+
             CtClass ct = ClassPool.getDefault().get(className);
             byte[] code = ct.toBytecode();
 
@@ -94,7 +96,7 @@ public class TransformingClassLoader extends ClassLoader {
             ClassPool.doPruning = true;
             return cl;
         } catch (Exception ex) {
-            //Logger.getLogger(TransformingClassLoader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransformingClassLoader.class.getName()).error(ex);
             throw new ClassNotFoundException(className);
         }
 
