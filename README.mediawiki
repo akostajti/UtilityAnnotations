@@ -6,4 +6,5 @@ A few years ago I was working on a project that contained a huge amount of gener
 
 === Overview ===
 
+the basics: the <code>@ToString</code> annotation is used to generate <code>toString()</code> methods on the fly, the <code>@Loggable</code> annotation is used to add method entry logging.
 For more details please visit [http://annojdev.wordpress.com/ my blog about UtilityAnnotations]
