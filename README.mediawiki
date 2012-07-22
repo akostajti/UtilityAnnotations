@@ -1,0 +1,9 @@
+UtilityAnnotations is a small and easy-to-learn class library containing useful annotations and utility classes. These classes and annotations make it easy to work with generated classes (ie. with wsimport) and to debug the code written upon them.
+
+=== Motivation ===
+
+A few years ago I was working on a project that contained a huge amount of generated classes. Development with these classes in the codebase was a pain because they made it nearly impossible to get any useful information from the log files. I decided to crate a small class library with which it is extremely easy to generate <code>toString()</code> methods and method entry logging on the fly. This library is UtilityAnnotations.
+
+=== Overview ===
+
+For more details please visit [http://annojdev.wordpress.com/ my blog about UtilityAnnotations]
