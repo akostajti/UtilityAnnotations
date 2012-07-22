@@ -82,7 +82,7 @@ public class ToStringCreator extends ClassTransformer {
         }
         String methodBody = createMethodBody(fieldsToInclude);
         if (methodBody != null) {
-            createMethod(ct, "public String toString()", methodBody);
+            createToStringMethod(ct, methodBody);
         }
 
         return true;

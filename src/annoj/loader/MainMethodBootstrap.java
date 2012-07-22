@@ -49,7 +49,7 @@ public class MainMethodBootstrap {
         
         TransformingClassLoader loader = new TransformingClassLoader(transformers);
 
-        Class cl = loader.loadClass(className);
+        Class<?> cl = loader.loadClass(className);
         Method m = cl.getMethod("main", String[].class);
         m.invoke(null, new Object[]{args});
     }

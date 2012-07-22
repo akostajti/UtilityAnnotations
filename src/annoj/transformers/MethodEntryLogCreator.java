@@ -39,7 +39,7 @@ public class MethodEntryLogCreator extends ClassTransformer {
             logger.debug(Arrays.asList(ms));
             logger.debug("empty= " + ms.length);
         }
-        logger.debug(containsAnnotation(ct.getAnnotations(), Loggable.class));
+        logger.debug(Boolean.valueOf(containsAnnotation(ct.getAnnotations(), Loggable.class)));
         boolean logAll = containsAnnotation(ct.getAnnotations(), Loggable.class) && ms != null && ms.length == 1 && ms[0].equals("");
 
         logger.debug("logall= " + logAll);

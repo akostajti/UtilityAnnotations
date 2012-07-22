@@ -30,18 +30,16 @@ import org.apache.log4j.Logger;
  */
 public abstract class ClassTransformer {
 
-    //<editor-fold desc="instance fields">
     private ClassTransformer nextClassTransformer;
     private ClassTransformer previousClassTransformer;
     private static Logger logger = Logger.getLogger(ClassTransformer.class.getName());
-    //</editor-fold>
-    //<editor-fold desc="abstract methods">
+
     /**
      * Do modifications on class <code>className</code> The class must be on the classpath.
      */
     protected abstract void doModification(String className) throws Exception;
-    //</editor-fold>
-    protected void createMethod(CtClass ct, String methodNameNadSignature, String methodBody) throws CannotCompileException {
+
+    protected void createToStringMethod(CtClass ct, String methodBody) throws CannotCompileException {
         CtMethod newMethod = CtNewMethod.make("public String toString()" + methodBody, ct);
         ct.addMethod(newMethod);
     }
@@ -54,14 +52,14 @@ public abstract class ClassTransformer {
      * @param annotationClass
      * @return
      */
-    protected boolean containsAnnotation(Object[] anns, Class annotationClass) {
+    protected boolean containsAnnotation(Object[] anns, Class<?> annotationClass) {
         if (getAnnotation(anns, annotationClass) != null) {
             return true;
         }
         return false;
     }
     
-    protected Object getAnnotation(Object anns[], Class annotationClass) {
+    protected Object getAnnotation(Object anns[], Class<?> annotationClass) {
         for (Object o : anns) {
             if (annotationClass.isInstance(o)) {
                 return o;
@@ -229,7 +227,7 @@ public abstract class ClassTransformer {
      * @param annotationType
      * @return
      */
-    protected boolean isPackageAnnotatedWith(String packageName, Class annotationType) {
+    protected boolean isPackageAnnotatedWith(String packageName, Class<?> annotationType) {
         try {
             Class cl = Class.forName(packageName + ".Packagedebug");
             if (cl.getAnnotation(annotationType) != null) {

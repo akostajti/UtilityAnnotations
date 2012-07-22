@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class TransformingClassLoader extends ClassLoader {
 
-    private WeakHashMap<String, Class> classes = new WeakHashMap<String, Class>();
+    private WeakHashMap<String, Class<?>> classes = new WeakHashMap<String, Class<?>>();
     private ClassLoader parent;
 
     private List<ClassTransformer> transformers;
@@ -43,8 +43,8 @@ public class TransformingClassLoader extends ClassLoader {
     }
 
     @Override
-    public Class loadClass(String className, boolean resolve) throws ClassNotFoundException {
-        Class c = classes.get(className);
+    public Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
+        Class<?> c = classes.get(className);
         if (!checkClassName(className)) {
             c = parent.loadClass(className);
         }
@@ -75,7 +75,7 @@ public class TransformingClassLoader extends ClassLoader {
     }
 
     @Override
-    public Class findClass(String className) throws ClassNotFoundException {
+    public Class<?> findClass(String className) throws ClassNotFoundException {
 
         try {
             ClassPool.doPruning = false;
@@ -85,7 +85,7 @@ public class TransformingClassLoader extends ClassLoader {
             CtClass ct = ClassPool.getDefault().get(className);
             byte[] code = ct.toBytecode();
 
-            Class cl = defineClass(className, code, 0, code.length);
+            Class<?> cl = defineClass(className, code, 0, code.length);
 
             if (cl == null) {
                 throw new ClassNotFoundException();
