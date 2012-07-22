@@ -19,7 +19,7 @@ public class Sample {
         trans.add(logCreator);
         
 //        creator.doModification("annoj.test.TestClass");
-        ClassTransformer.initClassTransformers(trans, "/home/tajti/assistclasses");
+        ClassTransformer.initClassTransformers(trans, "classlist.sample");
         //creator.initBeforeApplicationStart("/home/tajti/assistclasses");
         TestClass tc = new TestClass(10, "www", 1.1);
         System.out.println(tc);

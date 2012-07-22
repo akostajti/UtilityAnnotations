@@ -73,8 +73,8 @@ public abstract class ClassTransformer {
 
     /**
      * The method accepts a file name as a parameter. The file is a simple text file
-     * in wich there are package and class names listed one per every line. the packages
-     * and classes must be available for the context classloader.
+     * in which there are package and class names listed one per every line. the packages
+     * and classes must be available for the context class loader.
      * <br/>
      * The method modifies the classes listed in the file and the classes in the packages
      * listed in the file if the are annotated with any of the annotations in package
@@ -121,7 +121,7 @@ public abstract class ClassTransformer {
             nextClassTransformer.doModification(ct.getName());
         }
 
-        //TODO: ezt a kommentet felülvizsgálni
+        //TODO: review this
         if (/*doModification(ct) && */previousClassTransformer == null) {
             ct.toClass();
         }
