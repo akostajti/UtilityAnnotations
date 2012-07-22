@@ -23,7 +23,7 @@ import java.util.List;
  * call it using <code>MainMethodBootstrap</code> that gives us the opportunity to load
  * all classes by <code>TransformingClassLoader</code>. The class loader then processes
  * the annotations in every classes it loads.
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class MainMethodBootstrap {
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.util;
 
 import java.io.File;
@@ -15,7 +11,7 @@ import java.util.List;
  * Utility class used for finding classes in a given package.
  * 
  * 
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class DirectoryTraverser {
 

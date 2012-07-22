@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package annoj.sample;
 
 import annoj.transformers.ClassTransformer;
@@ -13,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class Sample {
     public static void main(String[] args) throws Exception {

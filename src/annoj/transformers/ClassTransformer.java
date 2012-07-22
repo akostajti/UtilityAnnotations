@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.transformers;
 
 import annoj.util.*;
@@ -30,7 +26,7 @@ import org.apache.log4j.Logger;
  * If the config file contains the name of a package, then the <code>ClassTransformer</code>
  * instance is able to modify all classes in the package.
  * 
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public abstract class ClassTransformer {
 

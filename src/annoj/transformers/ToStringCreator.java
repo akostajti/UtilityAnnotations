@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.transformers;
 
 import annoj.annotation.Exclude;
@@ -35,7 +31,7 @@ import org.apache.log4j.Logger;
  * After this invocation the classes in the packages listed in file /home/tajti/packages 
  * are modified and loaded. Any instantiation of these classes sees the modified definition so
  * the <code>toString</code> method can be invoked without problem on them.
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class ToStringCreator extends ClassTransformer {
 

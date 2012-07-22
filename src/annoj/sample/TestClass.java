@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.sample;
 
-import annoj.annotation.Include;
 import annoj.annotation.Loggable;
 
 /**
  *
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 @Loggable
 public class TestClass {
@@ -29,6 +24,6 @@ public class TestClass {
     }
     
     public void x(String s){
-        System.out.println("Ez meghívódott");
+        System.out.println("invoked");
     }
 }

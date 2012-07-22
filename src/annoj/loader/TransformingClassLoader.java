@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  * of <code>ClassTransformer</code> instances to it. When a class is loaded by the
  * loader the passed transformers will try to modify its bytecode before loading it.
  * 
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class TransformingClassLoader extends ClassLoader {
 

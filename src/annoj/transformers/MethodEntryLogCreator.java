@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package annoj.transformers;
 
 import annoj.annotation.Loggable;
@@ -17,7 +13,7 @@ import org.apache.log4j.Logger;
  * <br/>
  * Method invocations are logged on debug level.
  * 
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 public class MethodEntryLogCreator extends ClassTransformer {
 

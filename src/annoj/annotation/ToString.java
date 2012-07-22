@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package annoj.annotation;
 
 import java.lang.annotation.ElementType;
@@ -18,7 +13,7 @@ import java.lang.annotation.Target;
  * The annotation can be used for annotating packages. In this case you must create
  * a class named <code>PackageInfo</code> in the desired package and annotate that class.
  * 
- * @author Tajti Ákos
+ * @author Akos Tajti
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
