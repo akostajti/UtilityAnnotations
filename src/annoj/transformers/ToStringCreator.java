@@ -44,6 +44,7 @@ public class ToStringCreator extends ClassTransformer {
      * @param className Name of the class to modify.
      * @throws java.lang.Exception
      */
+    @Override
     public void doModification(String className) throws Exception {
         logger.debug(className);
         ClassPool pool = ClassPool.getDefault();
