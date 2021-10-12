@@ -6,9 +6,9 @@
     <description>Builds, tests, and runs the project annoj.</description>
     <property name="lib.dir" value="${basedir}/lib" />
     <property name="src.dir" value="${basedir}/src" />
-    <property name="build.dir" value="${basedir}/build" />
-    <property name="dist.dir" value="${basedir}/dist" />
-    <property name="doc.dir" value="${basedir}/doc" />
+    <property name="builddir" value="${basedir}/build" />
+    <property name="distdir" value="${basedir}/dist" />
+    <property name="docdir" value="${basedir}/doc" />
     
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
