@@ -29,5 +29,5 @@
         <mkdir dir="${doc.dir}" />
         <javadoc sourcepath="${src.dir}" destdir="${doc.dir}" classpathref="classpath" />
     </target>
-    <target name="default" depends="jar" />
+    <target name="default" depends="jars" />
 </project>
